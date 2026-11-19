@@ -1,0 +1,4 @@
+# CPU build is enough for everything in this course:
+#   pip install -r requirements-torch.txt --index-url https://download.pytorch.org/whl/cpu
+# or just `pip install torch` for the default build.
+torch>=2.2
