@@ -60,7 +60,7 @@ price_eur           str
 """
 # suprising...
 
-print(df.info())
+df.info()
 """
 id                int64
 neighborhood        str
@@ -88,11 +88,102 @@ dtypes: float64(2), int64(2), str(4)
 memory usage: 38.4 KB
 None
 """
-# info shows a lot more data
+# info shows a lot more data, that is the same data
 
-# it looks like there are mismatched from digitising old entries from paper with diffrent standards
+# it looks like there are mismatched from digitizing old entries from paper with different standards
+# i enjoy roll playing as if it was.
+
+# year built shouldn't be a float, a lot of other stuff is string as fallback.
+
+print(df["price_eur"].head(20).tolist())
+#i think the stray symbols destroy the data and turn all to strings, plus there is a nan in there as well, weird considering it is al strings
+# bonus here is that csvs do not have type enforcement and automatic conversion like excel does.
+
+print(df["has_balcony"].unique())
+#ah, the strays of boolean with diffrent writing. merged tables? Who knows?
 
 # %% Step 3: summaries
 
+# Use describe(include="all")
+print( df.describe(include="all") )
+
+# value_counts() on neighborhood and has_balcony
+print(df["neighborhood"].value_counts())
+"""
+Leopoldstadt      104
+Donaustadt         88
+Favoriten          70
+Floridsdorf        57
+Neubau             57
+Josefstadt         45
+favoriten          22
+DONAUSTADT         17
+ Donaustadt        15
+leopoldstadt       12
+josefstadt         11
+floridsdorf        10
+FAVORITEN          10
+ Favoriten          9
+LEOPOLDSTADT        9
+neubau              9
+donaustadt          9
+ Josefstadt         8
+NEUBAU              8
+ Leopoldstadt       6
+FLORIDSDORF         6
+ Floridsdorf        5
+JOSEFSTADT          5
+ FAVORITEN          4
+ Neubau             3
+ josefstadt         2
+ floridsdorf        2
+ leopoldstadt       2
+ LEOPOLDSTADT       2
+ FLORIDSDORF        2
+ donaustadt         1
+ favoriten          1
+ neubau             1
+"""
+
+print(df["has_balcony"].value_counts())
+"""
+N        85
+false    70
+0        68
+yes      65
+Yes      63
+no       61
+No       61
+Y        59
+1        42
+true     38
+"""
+
+# isna().sum()
+print(df.isna().sum())
+"""
+id               0
+neighborhood     0
+sqm             31
+rooms            0
+year_built      48
+has_balcony      0
+price_eur       18
+listed_date      0
+"""
+
+# duplicated().sum()
+print(df.duplicated().sum()) # 12
+print(df["id"].duplicated().sum())
+
+# min max of all numeric columns
+print("sqm:", df["sqm"].min(), df["sqm"].max()) # 2, 9999 (max sounds far too big to be plausible)
+print("rooms:", df["rooms"].min(), df["rooms"].max()) # 1,7 (ok)
+print("year_built:", df["year_built"].min(), df["year_built"].max()) # 1802, 2124 (2124 is in the future; impossible)
+
+
+
+
 
 # %% Step 4: problem hunt (put findings in notes.md)
+(df["sqm"] / df["rooms"]).describe()

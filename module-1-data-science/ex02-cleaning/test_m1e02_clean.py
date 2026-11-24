@@ -53,7 +53,7 @@ def test_dates_are_datetimes_in_the_right_range(out):
 
 def test_no_impossible_values(out):
     assert out["sqm"].between(15, 250).all()
-    assert out["year_built"].between(1850, 2024).all()
+    assert out["year_built"].between(1850, 2026).all()
 
 
 def test_no_missing_values_and_enough_rows(out):
